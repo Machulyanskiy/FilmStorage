@@ -1,4 +1,4 @@
-This is test-project for a store and use movies data.
+This is test-project intended for a store and use movies data.
 
 First of all, you need node.js and npm installed on your computer, so if don’t have these ones – check this guide(https://www.taniarascia.com/how-to-install-and-use-node-js-and-npm-mac-and-windows/).
 
