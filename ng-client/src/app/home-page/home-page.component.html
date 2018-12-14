@@ -1,0 +1,105 @@
+<form id="search-form" class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row" id="search-row">
+    <div id="search-block" class="input-field">
+      <input id="search" type="search" formControlName="text">
+      <label id="for-search" class="label-icon " for="search">
+        <i class="material-icons search-icon">search</i>
+      </label>
+      <i class="material-icons search-icon">close</i>
+    </div>
+    <button type="submit" id="search-submit" [disabled]="!isChecked"
+            class="waves-effect waves-light btn-large right">
+      Search
+    </button>
+  </div>
+
+  <div class="checkboxes">
+    <span id="checkboxes-desc">Search criteria</span>
+    <div class="checkbox-block">
+      <input id="by-movie" type="checkbox" class="search-checkbox"
+             formControlName="byMovie" (ngModelChange)="onChange($event)">
+      <label class="label-icon" for="by-movie" [ngClass]="{'check-invalid': !isChecked}">by movie</label>
+    </div>
+    <div>
+      <input id="by-actor" type="checkbox" class="search-checkbox"
+             formControlName="byActor" (ngModelChange)="onChange($event)">
+      <label class="label-icon" for="by-actor" [ngClass]="{'check-invalid': !isChecked}">by actor</label>
+    </div>
+  </div>
+  <div *ngIf="!isChecked" class="check-invalid">
+    <span >At least one checkbox should be checked</span>
+  </div>
+</form>
+
+
+<div>
+  <div class="row" *ngIf="movies$ | async as movies; else loader">
+    <ul id="movie-list" *ngIf="movies.length > 0; else empty">
+      <li class="list-item">
+        <span class="col s8 movie-title">Title</span>
+        <span class="col s2 center">Release year</span>
+        <span class="col s1 center">View</span>
+        <span class="col s1 center">Delete</span>
+      </li>
+      <li class="list-item" *ngFor="let movie of movies">
+        <span class="col s8 movie-title ">{{movie.title}}</span>
+        <span class="col s2 center">{{movie.year}}</span>
+        <span class="col s1 center">
+        <span class="col s1 center">
+          <button class="btn btn-small list-item-btn" (click)="viewModal(movie._id, $event, 'view')" >
+            <i class="material-icons">assignment</i>
+          </button>
+        </span>
+
+        </span>
+        <span class="col s1 center">
+          <button class="btn btn-small list-item-btn red" (click)="viewModal(movie._id, $event, 'delete')" >
+            <i class="material-icons">delete</i>
+          </button>
+        </span>
+      </li>
+    </ul>
+    <ng-template #empty>
+      <h2 id="absent-movies" class="center">No movies available</h2>
+    </ng-template>
+  </div>
+
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+
+<div class="modal" #modal>
+  <div class="modal-content" *ngIf="movie$ | async as movie; else loader">
+    <h4>{{movieDelete ? 'Are you sure that want to delete this movie?' : 'Movie '+movie.title}}</h4>
+    <div class="row movie-info">
+      <div class="list-item" *ngIf="movieDelete">
+        <span class="col s3">Title</span>
+        <span class="col s9">{{movie.title}}</span>
+      </div>
+      <div class="list-item">
+        <span class="col s3">Release year</span>
+        <span class="col s9">{{movie.year}}</span>
+      </div>
+      <div class="list-item">
+        <span class="col s3">Format</span>
+        <span class="col s9">{{movie.format}}</span>
+      </div>
+      <div class="list-item">
+        <span class="col s3">Actors</span>
+        <span class="col s9">{{movie.actors}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    <a href="#!" class="modal-close waves-effect red btn-flat"
+       *ngIf="movieDelete"
+       (click)="deleteMovie()">Delete</a>
+  </div>
+</div>
+
+<app-movie-page>
+
+</app-movie-page>
