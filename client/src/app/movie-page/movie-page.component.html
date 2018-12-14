@@ -1,0 +1,78 @@
+<div id="newMovieComponent">
+  <div class="col row">
+    <h2 id="add-movie-header" class="center">
+      Add some movie
+    </h2>
+    <div class="col s4 input-block">
+      <h3 class="center add-movie-subheader">import txt file<span class="right">O</span></h3>
+      <form class="col s12" [formGroup]="formImport" (ngSubmit)="onSubmitImport()">
+        <div class="import-btns">
+          <input type="file" class="dn" (change)="onFileUpload($event)" #input>
+          <button (click)="triggerClick()" [disabled]="formImport.disabled" type="button" class="waves-effect waves-light btn orange lighten-2 mb2">
+            <i class="material-icons left">backup</i>
+            Load file
+          </button>
+          <span id="file-name" *ngIf="file">{{file.name}}</span>
+          <div class="helper-text red-text" *ngIf="fileError">{{fileError}}</div>
+        </div>
+        <div class="import-btns">
+          <button type="submit"
+                  [disabled]="formImport.invalid || formImport.disabled || isDisable"
+                  class="waves-effect waves-light btn">
+            Import file
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col s8 input-block">
+      <h3 class="center add-movie-subheader"><span class="left">R</span>input info manually</h3>
+      <form id="new-movie-form" class="col s12" [formGroup]="formInput" (ngSubmit)="onSubmitSave()">
+        <div class="input-field">
+          <input id="new-movie-title" type="text" formControlName="title"
+                 [ngClass]="{'invalid': formInput.get('title').invalid && formInput.get('title').touched}">
+          <label for="new-movie-title">Title</label>
+          <span class="helper-text red-text"
+                *ngIf="formInput.get('title').invalid && formInput.get('title').touched">
+            Title shouldn't be empty and can contain only letters or spaces
+          </span>
+        </div>
+        <div class="input-field">
+          <input id="new-movie-year" type="number" formControlName="year" min="1888" max="2050"
+                 [ngClass]="{'invalid': formInput.get('year').invalid && formInput.get('year').touched}">
+          <label for="new-movie-year">Release year</label>
+          <span class="helper-text red-text"
+                *ngIf="formInput.get('year').invalid && formInput.get('year').touched">
+            Release year shouldn't be empty
+          </span>
+        </div>
+        <div class="input-field">
+          <input id="new-movie-format" type="text" formControlName="format"
+                 [ngClass]="{'invalid': formInput.get('format').invalid && formInput.get('format').touched}">
+          <label for="new-movie-format">Format</label>
+          <span class="helper-text red-text"
+                *ngIf="formInput.get('format').invalid && formInput.get('format').touched">
+            Format shouldn't be empty and can contain only letters or spaces
+          </span>
+        </div>
+        <div class="input-field">
+          <input id="new-movie-actors" type="text" formControlName="actors"
+                 [ngClass]="{'invalid': formInput.get('actors').invalid && formInput.get('actors').touched}">
+          <label for="new-movie-actors">Actors</label>
+          <span class="helper-text red-text"
+                *ngIf="formInput.get('actors').invalid && formInput.get('actors').touched">
+            Actors shouldn't be empty and can contain only letters, spaces or comas
+          </span>
+        </div>
+        <div>
+          <button type="submit"
+                  [disabled]="formInput.invalid || formInput.disabled"
+                  class="waves-effect waves-light btn">
+            Save movie
+          </button>
+          <app-loader *ngIf="isLoading" class="right"></app-loader>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
