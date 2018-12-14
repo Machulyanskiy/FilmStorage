@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 require('../models/Movie').registerModel();
 const Movie = mongoose.model('movies');
-//const Movie = require('../models/Movie').registerModel();
 const errorHandler = require('../utils/errorHandler');
 const fs = require('fs');
 
@@ -54,7 +53,7 @@ module.exports.create = async function(req, res) {
     try {
         const movie = ({
             title: req.body.title.trim(),
-            year: parseInt(req.body.year.trim()),
+            year: parseInt(req.body.year),
             format: req.body.format.trim(),
             actors: req.body.actors.trim()
         });
@@ -106,7 +105,7 @@ module.exports.import = async function(req, res) {
 module.exports.delete = async function(req, res) {
     try {
         await Movie.deleteOne({_id: req.params.id});
-        res.status(200).json({message: 'Movie has been deleted'})
+        res.status(200).json({message: 'Movie deleted'})
     } catch (e) {
         errorHandler(e, res);
     }
