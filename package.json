@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha tests -R spec",
     "server": "nodemon index",
-    "client": "npm run start --prefix ng-client",
+    "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Red Eyed Chief",
